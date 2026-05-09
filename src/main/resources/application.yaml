@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: financeAdvisor
+  datasource:
+    url: jdbc:postgresql://localhost:5434/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  ai:
+    model:
+      chat: google-genai
+      embedding:
+        text: google-genai
+    google:
+      genai:
+        api-key: ${GOOGLE_GENAI_API_KEY}
+        chat:
+          options:
+            model: gemini-2.0-flash
+            temperature: 0.3
+        embedding:
+          api-key: ${GOOGLE_GENAI_API_KEY}
+          text:
+            options:
+              model: gemini-embedding-001
+    vectorstore:
+      pgvector:
+        index-type: IVFFLAT
+        distance-type: COSINE_DISTANCE
+        dimensions: 3072
+        initialize-schema: true
+  autoconfiguration:
+    exclude:
+      - org.springframework.ai.model.anthropic.autoconfigure.AnthropicChatAutoConfiguration
+      - org.springframework.ai.model.ollama.autoconfigure.OllamaChatAutoConfiguration
+
+logging:
+  level:
+    root: INFO
+    org.springframework.ai: DEBUG
+    com.example.financeadvisor: DEBUG
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
