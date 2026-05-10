@@ -7,6 +7,7 @@ import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvi
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 @Service
 public class ChatService {
@@ -44,5 +45,17 @@ public class ChatService {
                 .advisors(questionAnswerAdvisor)
                 .call()
                 .content();
+    }
+
+    public Flux<String> askStream(String question) {
+        log.info("Processing streaming question: {}", question);
+
+        return chatClient.prompt()
+                .system(SYSTEM_PROMPT)
+                .user(question)
+                .advisors(questionAnswerAdvisor)
+                .stream()
+                .content()
+                .map(chunk -> "data: " + chunk + "\n\n");
     }
 }

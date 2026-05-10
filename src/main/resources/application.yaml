@@ -1,19 +1,6 @@
 spring:
   application:
     name: financeAdvisor
-  datasource:
-    url: jdbc:postgresql://localhost:5434/postgres
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
   ai:
     model:
       chat: google-genai
@@ -21,21 +8,21 @@ spring:
         text: google-genai
     google:
       genai:
-        api-key: ${GOOGLE_GENAI_API_KEY}
+        api-key: ${GOOGLE_API_KEY}
         chat:
           options:
-            model: gemini-2.0-flash
+            model: gemini-2.5-flash
             temperature: 0.3
         embedding:
-          api-key: ${GOOGLE_GENAI_API_KEY}
+          api-key: ${GOOGLE_API_KEY}
           text:
             options:
               model: gemini-embedding-001
     vectorstore:
-      pgvector:
-        index-type: IVFFLAT
-        distance-type: COSINE_DISTANCE
-        dimensions: 3072
+      qdrant:
+        host: localhost
+        port: 6334
+        collection-name: finance-advisor
         initialize-schema: true
   autoconfiguration:
     exclude:
