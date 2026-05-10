@@ -43,7 +43,7 @@ public class IngestionService {
         log.info("Total Chunk to embed and store: {}",chunks.size());
 
         vectorStore.add(chunks);
-        log.info("✅ Ingestion complete! {} chunks stored in PGVector.", chunks.size());
+        log.info("✅ Ingestion complete! {} chunks stored in VectorDB.", chunks.size());
         return chunks.size();
     }
 }
